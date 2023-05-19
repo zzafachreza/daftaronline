@@ -51,20 +51,16 @@ export default function Home({ navigation }) {
 
 
 
-    <ImageBackground source={require('../../assets/home.png')} style={{
+    <ImageBackground style={{
       flex: 1,
       // padding: 20,
     }}>
-      <View style={{
-        padding: 5,
-        marginBottom: 10,
-      }}>
-        <MyHeader menu={`Halo, ${user.nama_lengkap} !`} />
-      </View>
+
+      <MyHeader menu={`${user.nama_lengkap}`} />
+
       {/* menu utama */}
       <MyCarouser />
       <View style={{
-        marginTop: 5,
         flex: 0.5,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -80,6 +76,7 @@ export default function Home({ navigation }) {
 
           <View style={{
             borderWidth: 1,
+            elevation: 4,
             backgroundColor: colors.white,
             borderColor: colors.secondary,
             justifyContent: 'center',
@@ -115,6 +112,7 @@ export default function Home({ navigation }) {
           alignItems: 'center'
         }}>
           <View style={{
+            elevation: 4,
             borderWidth: 1,
             backgroundColor: colors.white,
             borderColor: colors.secondary,
@@ -151,6 +149,7 @@ export default function Home({ navigation }) {
         }}>
           <View style={{
             borderWidth: 1,
+            elevation: 4,
             backgroundColor: colors.white,
             borderColor: colors.secondary,
             borderRadius: 10,

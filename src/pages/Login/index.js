@@ -84,18 +84,7 @@ export default function ({ navigation }) {
   return (
     <>
       <ScrollView style={{ padding: 10, flex: 1, backgroundColor: colors.white, position: 'relative' }}>
-        <Image
-          source={require('../../assets/efek1.png')}
-          style={
-            {
-              left: 0,
-              width: 250,
-              height: 180,
-              resizeMode: 'contain',
-              position: 'absolute'
-            }
-          }
-        />
+
         <View style={{
           width: windowWidth / 1.6,
           justifyContent: 'center',

@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View, Image, ActivityIndicator, Linking } from 'react-native'
+import { Alert, StyleSheet, Text, View, Image, ActivityIndicator, Linking, ImageBackground } from 'react-native'
 import React, { useState, useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { apiURL, getData, MYAPP, storeData } from '../../utils/localStorage';
@@ -22,8 +22,13 @@ export default function SHasil({ navigation, route }) {
     const kode = route.params.kode;
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState({});
+    const [comp, setComp] = useState({});
 
     useEffect(() => {
+        axios.post(apiURL + 'company').then(c => {
+            console.log(c.data);
+            setComp(c.data.data);
+        })
         axios.post(apiURL + 'get_daftar', {
             kode: route.params.kode
         }).then(res => {
@@ -35,26 +40,36 @@ export default function SHasil({ navigation, route }) {
 
 
 
-    const TopList = ({ l, v }) => {
+    const TopList = ({ img, label, value }) => {
         return (
             <View style={{
+                marginHorizontal: 20,
                 flexDirection: 'row',
+                alignItems: 'center'
             }}>
-                <Text style={{
-                    flex: 0.3,
-                    fontFamily: fonts.primary[600],
-                    fontSize: 15
-                }}>{l}</Text>
-                <Text style={{
-                    flex: 0.1,
-                    fontFamily: fonts.primary[600],
-                    fontSize: 15
-                }}>:</Text>
-                <Text style={{
-                    flex: 1,
-                    fontFamily: fonts.primary[600],
-                    fontSize: 15
-                }}>{v}</Text>
+                <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+                    <Image source={img} style={{
+                        width: 28,
+                        height: 28,
+                        resizeMode: 'contain'
+                    }} />
+                    <Text style={{
+                        left: 8,
+                        fontFamily: fonts.secondary[400],
+                        color: colors.black,
+                        fontSize: 12,
+                        textAlign: 'center'
+                    }} >{label}</Text>
+                </View>
+
+                <View style={{}}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[400],
+                        color: colors.black,
+                        fontSize: 12,
+                        textAlign: 'center'
+                    }} >{value}</Text>
+                </View>
             </View>
         )
     }
@@ -63,86 +78,154 @@ export default function SHasil({ navigation, route }) {
     return (
         <SafeAreaView style={{
             flex: 1,
-            backgroundColor: colors.white,
-            padding: 10,
+            backgroundColor: '#EBEFF2',
+            justifyContent: 'center',
+            alignItems: 'center'
         }}>
 
             {!loading &&
 
-                <>
+                <ImageBackground source={require('../../assets/tiket.png')} style={{
+                    flex: 1,
+                    width: 360,
+                    marginVertical: 10,
+
+                }}>
                     <View style={{
-                        flex: 1,
+                        marginTop: 30,
                     }}>
-
-                        <Image source={require('../../assets/logo.png')} style={{
-                            width: windowWidth / 3,
-                            height: windowWidth / 3,
-                            alignSelf: 'center',
-
-                        }} />
-                        <TopList l="Tgl. Reg" v={moment(data.tanggal).format('dddd , DD MMM YYYY')} />
-                        <TopList l="No. Reg" v={data.kode} />
-                        <TopList l="No. RM" v={data.rekam_medis} />
-                        <TopList l="Nama" v={data.nama_lengkap} />
-
-                        <View style={{
-                            borderBottomWidth: 1,
-                            marginVertical: 10,
-
-                        }} />
-
                         <Text style={{
-                            marginVertical: 10,
-                            textAlign: 'center',
-                            fontFamily: fonts.primary[600],
-                            fontSize: 50,
-                        }}>{data.antrian}</Text>
-
-                        <View style={{
-                            borderBottomWidth: 1,
-                            marginVertical: 10,
-
-                        }} />
-
-                        <Text style={{
-                            textAlign: 'center',
-                            fontFamily: fonts.primary[600],
-                            fontSize: 20,
-                        }}>{data.nama_poli}</Text>
-                        <Text style={{
-                            textAlign: 'center',
-                            fontFamily: fonts.primary[600],
-                            fontSize: 20,
-                        }}>{data.nama_dokter}</Text>
-
-                        <View style={{
-                            borderBottomWidth: 1,
-                            marginVertical: 10,
-
-                        }} />
-                        <Text style={{
-                            textAlign: 'center',
-                            fontFamily: fonts.secondary[400],
+                            fontFamily: fonts.secondary[600],
                             fontSize: 18,
-                        }}>{moment(data.tanggal).format('dddd , DD MMM YYYY')} {data.jam}</Text>
+                            textAlign: 'center'
+                        }} >{comp.deskripsi}</Text>
+                        <Text style={{
+                            fontFamily: fonts.secondary[400],
+                            fontSize: 14,
+                            textAlign: 'center'
+                        }} >No Referensi / Rujukan : {data.bpjs_ref}</Text>
+                        <Text style={{
+                            fontFamily: fonts.secondary[400],
+                            color: colors.primary,
+                            fontSize: 18,
+                            textAlign: 'center'
+                        }} >{data.nama_dokter}</Text>
 
+                        <TopList img={require('../../assets/rm.png')} label="No Rekam Medis" value={data.rekam_medis} />
+                        <TopList img={require('../../assets/poli.png')} label="Poli" value={data.nama_poli} />
+                        <TopList img={require('../../assets/tgl.png')} label="Tanggal Rujukan" value={moment(data.tanggal).format('DD-MMM-YYYY')} />
+                        <TopList img={require('../../assets/book.png')} label="Kode Booking" value={moment(data.tanggal).format('YYYYMMDD') + data.kode.split("/")[2]} />
+                        <TopList img={require('../../assets/reg.png')} label="No Registrasi" value={data.kode} />
+                        <TopList img={require('../../assets/jns.png')} label="Jenis Kunjungan" value={data.bpjs_kunjungan} />
 
 
                     </View>
+                    {/* baroce */}
+
                     <View style={{
-                        justifyContent: 'center',
-                        alignItems: 'center'
+                        marginTop: 40,
                     }}>
-                        <QRCode
-                            size={windowWidth / 2}
-                            value={data.kode}
-                            logo={require('../../assets/logo.png')}
-                            logoSize={30}
-                            logoBackgroundColor='transparent'
-                        />
-                    </View>
-                </>
+                        <Text style={{
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 18,
+                            textAlign: 'center'
+                        }} >Nomor Antrean Poliklinik</Text>
 
+                        <Text style={{
+                            color: colors.secondary,
+                            textAlign: 'center',
+                            fontFamily: fonts.secondary[600],
+                            fontSize: 55,
+                        }}>{data.antrian}</Text>
+                        <View style={{
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}>
+                            <QRCode
+                                size={150}
+                                value={data.kode}
+                                logo={require('../../assets/logo.png')}
+                                logoSize={30}
+                                logoBackgroundColor='transparent'
+                            />
+                        </View>
+
+                        <View style={{
+                            flexDirection: 'row',
+                            marginHorizontal: 20,
+                            justifyContent: 'space-between'
+                        }}>
+                            <View >
+                                <Text style={{
+                                    color: colors.black,
+                                    fontFamily: fonts.secondary[600],
+                                    fontSize: 15,
+                                }}>Sisa{'\n'}Antrean</Text>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center'
+                                }}>
+                                    <Image source={require('../../assets/sisa.png')} style={{
+                                        width: 28,
+                                        height: 28,
+                                        resizeMode: 'center'
+                                    }} />
+                                    <Text style={{
+                                        color: colors.black,
+                                        fontFamily: fonts.secondary[600],
+                                        fontSize: 20,
+                                        textAlign: 'center',
+                                        left: 5,
+                                    }}>{data.nomor - 1}</Text>
+                                </View>
+                            </View>
+                            <View >
+                                <Text style={{
+                                    color: colors.black,
+                                    fontFamily: fonts.secondary[600],
+                                    fontSize: 15,
+                                }}>Peseta{'\n'}Dilayani</Text>
+                                <View style={{
+                                    flexDirection: 'row',
+                                    alignItems: 'center'
+                                }}>
+                                    <Image source={require('../../assets/layan.png')} style={{
+                                        width: 28,
+                                        height: 28,
+                                        resizeMode: 'center'
+                                    }} />
+                                    <Text style={{
+                                        color: colors.black,
+                                        fontFamily: fonts.secondary[600],
+                                        fontSize: 20,
+                                        left: 5,
+                                        textAlign: 'center'
+                                    }}>-</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={{
+                            padding: 2,
+                            backgroundColor: '#E8F5FE',
+                            marginHorizontal: 20,
+                            marginTop: 10,
+                            height: 80,
+                            borderRadius: 10,
+                            borderWidth: 1,
+                            borderColor: '#DAE5EB',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+
+                        }}>
+                            <Text style={{
+                                fontFamily: fonts.secondary[400],
+                                fontSize: 13,
+                                fontStyle: 'italic'
+                            }}>*) Peserta harap 30 menit lebih awal guna pencatatan administrasi.{'\n'}Untuk tujuan poli Anda diperlukan identifikasi sidik jari,{'\n'}silahkan datang ke tempat validasi sidik jari terlebih dahulu</Text>
+                        </View>
+                    </View>
+                </ImageBackground>
             }
             {loading && <View style={{
                 flex: 1,

@@ -22,6 +22,8 @@ export default function SAdd({ navigation, route }) {
     const [user, setUser] = useState({});
     const [kirim, setKirim] = useState({
         jenis: 'BPJS',
+        bpjs_kunjungan: 'Rujukan FKTP',
+        bpjs_ref: '',
         fid_user: route.params.id,
         fid_dokter: '',
         fid_poli: '',
@@ -31,21 +33,27 @@ export default function SAdd({ navigation, route }) {
     const [kode, setKode] = useState('');
 
     const sendServer = () => {
-        console.log(kirim);
+        console.log('send server', kirim);
         setLoading(true);
         axios.post(apiURL + 'daftar_online', kirim).then(res => {
             console.log(res.data);
 
-            if (res.data == 404) {
+            if (res.data == 403) {
                 setTimeout(() => {
                     setLoading(false);
-                    Alert.alert(MYAPP, 'Maaf Pendaftaran BPJS sudah penuh !')
+                    Alert.alert(MYAPP, 'Maaf tidak bisa daftar 2x di hari yang sama !')
+
+                }, 1000)
+            } else if (res.data == 404) {
+                setTimeout(() => {
+                    setLoading(false);
+                    Alert.alert(MYAPP, 'Maaf Pendaftaran BPJS untuk Dokter ini sudah penuh !')
 
                 }, 1000)
             } else if (res.data == 405) {
                 setTimeout(() => {
                     setLoading(false);
-                    Alert.alert(MYAPP, 'Maaf Pendaftaran Umum sudah penuh !')
+                    Alert.alert(MYAPP, 'Maaf Pendaftaran Umum untuk Dokter ini sudah penuh !')
 
                 }, 1000)
             } else {
@@ -107,7 +115,7 @@ export default function SAdd({ navigation, route }) {
 
 
 
-        <ImageBackground source={require('../../assets/backadd.png')} style={{
+        <ImageBackground style={{
             flex: 1,
             paddingHorizontal: 20,
             backgroundColor: colors.white,
@@ -131,7 +139,29 @@ export default function SAdd({ navigation, route }) {
                     { label: 'BPJS', value: 'BPJS' },
                     { label: 'Umum', value: 'Umum' },
                 ]} />
-                <MyGap jarak={20} />
+                <MyGap jarak={10} />
+
+                {kirim.jenis == 'BPJS' && <>
+
+                    <MyPicker label="Jenis Kunjungan" onValueChange={x => setKirim({
+                        ...kirim,
+                        bpjs_kunjungan: x
+                    })} iconname="list" data={[
+                        { label: 'Rujukan FKTP', value: 'Rujukan FKTP' },
+                        { label: 'Rujukan Internal', value: 'Rujukan Internal' },
+                        { label: 'Kontrol', value: 'Kontrol' },
+                        { label: 'Rujukan Antar RS', value: 'Rujukan Antar RS' },
+                    ]} />
+                    <MyGap jarak={10} />
+                    <MyInput label="Inputan No. Referensi / Rujukan" onChangeText={x => {
+                        setKirim({
+                            ...kirim,
+                            bpjs_ref: x
+                        })
+                    }} placeholder="Masukan no referensi / rujukan" iconname="create" />
+                </>}
+
+                <MyGap jarak={10} />
                 <MyPicker label="Nama Poli" iconname="fitness" data={poli} onValueChange={x => {
 
                     axios.post(apiURL + 'dokter', {

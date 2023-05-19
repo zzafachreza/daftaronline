@@ -36,7 +36,6 @@ export default function GetStarted({ navigation }) {
 
     return (
         <ImageBackground
-            source={require('../../assets/akses.png')}
             style={{
                 flex: 1,
                 // justifyContent: 'flex-end',

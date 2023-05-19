@@ -32,7 +32,7 @@ export default function Splash({ navigation }) {
 
 
   return (
-    <ImageBackground source={require('../../assets/splash.png')} style={{
+    <ImageBackground style={{
       flex: 1,
       backgroundColor: colors.white,
       justifyContent: 'center',

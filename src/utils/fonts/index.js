@@ -16,12 +16,12 @@ export const fonts = {
   },
   secondary: {
     200: 'Montserrat-ExtraLight',
-    300: 'Montserrat-Light',
-    400: 'Montserrat-Regular',
-    600: 'Montserrat-SemiBold',
+    300: 'Roboto-Light',
+    400: 'Roboto-Regular',
+    600: 'Roboto-Medium',
     700: 'Montserrat-Bold',
     800: 'Montserrat-ExtraBold',
-    900: 'Montserrat-Black',
+    900: 'Roboto-Black',
     normal: 'Fonetis',
   },
 };
