@@ -38,8 +38,8 @@ export default function MyCarouser() {
       source={{ uri: item }}
       style={{
         resizeMode: 'cover',
-        height: 180,
-        width: 300,
+        height: 220,
+        width: windowWidth - 20,
         borderRadius: 10,
       }}
     />
@@ -50,12 +50,12 @@ export default function MyCarouser() {
       <Carousel
         loop={true}
         // layout="stack"
-        layoutCardOffset={18}
+        layoutCardOffset={50}
         data={data}
         containerCustomStyle={styles.carousel}
         renderItem={renderCarouselItem}
         sliderWidth={Dimensions.get('window').width}
-        itemWidth={300}
+        itemWidth={windowWidth - 20}
         removeClippedSubviews={false}
       />
     </View>

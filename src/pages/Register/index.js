@@ -65,7 +65,7 @@ export default function Register({ navigation }) {
 
     const simpan = () => {
         if (
-            data.nama_lengkap.length === 0 &&
+
             data.tanggal_lahir.length === 0 &&
             data.rekam_medis.length === 0 &&
             data.nik.length === 0 &&
@@ -76,11 +76,12 @@ export default function Register({ navigation }) {
             showMessage({
                 message: 'Formulir pendaftaran tidak boleh kosong !',
             });
-        } else if (data.nama_lengkap.length === 0) {
-            showMessage({
-                message: 'Masukan nama kamu',
-            });
         }
+        // else if (data.nama_lengkap.length === 0) {
+        //     showMessage({
+        //         message: 'Masukan nama kamu',
+        //     });
+        // }
         else if (!cek) {
             showMessage({
                 message: 'Silahkan centang syarat dan ketentuan',
@@ -189,7 +190,7 @@ export default function Register({ navigation }) {
                 />
 
 
-                <MyGap jarak={10} />
+                {/* <MyGap jarak={10} />
                 <MyInput
                     placeholder="Masukan nama kamu"
                     label="Nama Kamu"
@@ -201,7 +202,7 @@ export default function Register({ navigation }) {
                             nama_lengkap: value,
                         })
                     }
-                />
+                /> */}
 
 
                 <MyGap jarak={10} />
@@ -219,20 +220,59 @@ export default function Register({ navigation }) {
                     }
                 />
 
-                <MyGap jarak={10} />
-                <MyInput
-                    placeholder="Masukan alamat kamu"
-                    label="Alamat Kamu"
-                    iconname="location"
-                    value={data.alamat}
-                    onChangeText={value =>
+
+                <View
+                    style={{
+                        marginTop: 10,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingVertical: 5,
+                    }}>
+                    <Icon type="ionicon" name='calendar' color={colors.black} size={16} />
+                    <Text
+                        style={{
+                            fontFamily: fonts.secondary[600],
+                            color: colors.black,
+                            left: 10,
+                            fontSize: 12,
+                        }}>
+                        Tanggal Lahir
+                    </Text>
+                </View>
+                <DatePicker
+                    style={{ width: '100%' }}
+                    date={data.tanggal_lahir}
+                    mode="date"
+                    placeholder="Pilih tanggal lahir"
+                    format="YYYY-MM-DD"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                        dateIcon: {
+                            position: 'absolute',
+                            right: 0,
+                            top: 4,
+                            marginLeft: 0
+                        },
+                        dateInput: {
+                            marginLeft: 0,
+                            backgroundColor: colors.zavalabs,
+                            backgroundColor: colors.zavalabs,
+                            borderRadius: 10,
+                            marginTop: 5,
+                            fontFamily: fonts.secondary[600],
+                            borderColor: colors.primary,
+                            borderWidth: 0,
+                        }
+                        // ... You can check the source to find the other keys.
+                    }}
+                    onDateChange={(date) => {
                         setData({
                             ...data,
-                            alamat: value,
+                            tanggal_lahir: date
                         })
-                    }
+                    }}
                 />
-
 
 
 
@@ -278,79 +318,7 @@ export default function Register({ navigation }) {
                     }
                 />
                 <MyGap jarak={10} />
-                <View style={{
-                    flexDirection: 'row'
-                }}>
-                    <View style={{
-                        flex: 1,
-                        paddingRight: 5,
-                    }}>
-                        <MyPicker onValueChange={x => setData({
-                            ...data,
-                            gender: x
-                        })} label="Jenis Kelamin" iconname="male-female" data={[
-                            { label: 'Laki-laki', value: 'Laki-laki' },
-                            { label: 'Perempuan', value: 'Perempuan' },
-                        ]} />
-                    </View>
-                    <View style={{
-                        flex: 1,
-                        paddingLeft: 5,
-                    }}>
-                        <View
-                            style={{
 
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                paddingVertical: 5,
-                            }}>
-                            <Icon type="ionicon" name='calendar' color={colors.black} size={16} />
-                            <Text
-                                style={{
-                                    fontFamily: fonts.secondary[600],
-                                    color: colors.black,
-                                    left: 10,
-                                    fontSize: 12,
-                                }}>
-                                Tanggal Lahir
-                            </Text>
-                        </View>
-                        <DatePicker
-                            style={{ width: '100%' }}
-                            date={data.tanggal_lahir}
-                            mode="date"
-                            placeholder="Pilih tanggal lahir"
-                            format="YYYY-MM-DD"
-                            confirmBtnText="Confirm"
-                            cancelBtnText="Cancel"
-                            customStyles={{
-                                dateIcon: {
-                                    position: 'absolute',
-                                    right: 0,
-                                    top: 4,
-                                    marginLeft: 0
-                                },
-                                dateInput: {
-                                    marginLeft: 0,
-                                    backgroundColor: colors.zavalabs,
-                                    backgroundColor: colors.zavalabs,
-                                    borderRadius: 10,
-                                    marginTop: 5,
-                                    fontFamily: fonts.secondary[600],
-                                    borderColor: colors.primary,
-                                    borderWidth: 0,
-                                }
-                                // ... You can check the source to find the other keys.
-                            }}
-                            onDateChange={(date) => {
-                                setData({
-                                    ...data,
-                                    tanggal_lahir: date
-                                })
-                            }}
-                        />
-                    </View>
-                </View>
 
                 <TouchableOpacity onPress={() => {
                     cek ? setCek(false) : setCek(true);

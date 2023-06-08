@@ -13,6 +13,8 @@ import 'intl';
 import 'intl/locale-data/jsonp/en';
 import moment from 'moment';
 import { Linking } from 'react-native';
+import DatePicker from 'react-native-datepicker'
+import { Icon } from 'react-native-elements';
 
 export default function SAdd({ navigation, route }) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -21,6 +23,7 @@ export default function SAdd({ navigation, route }) {
     const [poli, setPoli] = useState([]);
     const [user, setUser] = useState({});
     const [kirim, setKirim] = useState({
+        tanggal_rencana: moment().format('YYYY-MM-DD'),
         jenis: 'BPJS',
         bpjs_kunjungan: 'Rujukan FKTP',
         bpjs_ref: '',
@@ -34,7 +37,7 @@ export default function SAdd({ navigation, route }) {
 
     const sendServer = () => {
         console.log('send server', kirim);
-        setLoading(true);
+        // setLoading(true);
         axios.post(apiURL + 'daftar_online', kirim).then(res => {
             console.log(res.data);
 
@@ -132,6 +135,61 @@ export default function SAdd({ navigation, route }) {
                     alignSelf: 'center',
                     marginBottom: 10,
                 }} />
+
+                <View
+                    style={{
+
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingVertical: 5,
+                    }}>
+                    <Icon type="ionicon" name='calendar' color={colors.black} size={16} />
+                    <Text
+                        style={{
+                            fontFamily: fonts.secondary[600],
+                            color: colors.black,
+                            left: 10,
+                            fontSize: 12,
+                        }}>
+                        Tanggal Rencana Berobat
+                    </Text>
+                </View>
+                <DatePicker
+                    style={{ width: '100%', marginBottom: 20, }}
+                    date={kirim.tanggal_rencana}
+                    mode="date"
+                    placeholder="Pilih tanggal lahir"
+                    format="YYYY-MM-DD"
+                    confirmBtnText="Confirm"
+                    cancelBtnText="Cancel"
+                    customStyles={{
+                        dateIcon: {
+                            position: 'absolute',
+                            right: 0,
+                            top: 4,
+                            marginLeft: 0
+                        },
+                        dateInput: {
+                            marginLeft: 0,
+                            backgroundColor: colors.zavalabs,
+                            backgroundColor: colors.zavalabs,
+                            borderRadius: 10,
+                            marginTop: 5,
+                            fontFamily: fonts.secondary[600],
+                            borderColor: colors.primary,
+                            borderWidth: 0,
+                            height: 45,
+
+                        }
+                        // ... You can check the source to find the other keys.
+                    }}
+                    onDateChange={(date) => {
+                        setKirim({
+                            ...kirim,
+                            tanggal_rencana: date
+                        })
+                    }}
+                />
                 <MyPicker label="Jenis Pendaftaran" onValueChange={x => setKirim({
                     ...kirim,
                     jenis: x

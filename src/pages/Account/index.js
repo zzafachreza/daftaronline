@@ -127,17 +127,7 @@ export default function ({ navigation, route }) {
                             fontSize: windowWidth / 18,
                             color: colors.black
                         }}>Profile Saya</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('AccountEdit', user)} style={{
-                            padding: 5,
-                            borderRadius: 5,
-                        }}>
-                            <Text style={{
-                                textAlign: 'center',
-                                fontFamily: fonts.primary[400],
-                                fontSize: windowWidth / 18,
-                                color: colors.foourty
-                            }}>Ubah</Text>
-                        </TouchableOpacity>
+
                     </View>
 
                     <View style={{
@@ -169,19 +159,18 @@ export default function ({ navigation, route }) {
                                     fontFamily: fonts.primary[400],
                                     fontSize: windowWidth / 22,
                                     color: colors.black
-                                }}>{user.nama_lengkap}</Text>
-                                <Text style={{
-                                    fontFamily: fonts.primary[600],
-                                    fontSize: windowWidth / 28,
-                                    color: colors.primary
-                                }}>{user.level}</Text>
+                                }}>{user.nama}</Text>
+
                             </View>
                         </View>
                         <View style={{ padding: 10, }}>
-                            <MyList label="No Rekam Medis" value={user.telepon} />
+                            <MyList label="No Rekam Medis" value={user.norm} />
                             <MyList label="NIK" value={user.nik} />
+                            <MyList label="No Bpjs Kesehatan" value={user.nobpjs} />
                             <MyList label="Nomor Ponsel" value={user.telepon} />
-                            <MyList label="Tanggal Lahir" value={moment(user.tanggal_lahir).format('LL')} />
+                            <MyList label="Alamat" value={user.alamat} />
+
+                            <MyList label="Tanggal Lahir" value={moment(user.tgllahir).format('LL')} />
                             <MyList label="Jenis Kelamin" value={user.gender} />
                             <MyList label="Alamat" value={user.alamat} />
 

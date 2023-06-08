@@ -34,8 +34,39 @@ export default function Home({ navigation }) {
   }, [isFocused]);
 
   const __getTransaction = () => {
-    getData('user').then(res => {
-      setUser(res);
+
+
+
+
+    getData('user').then(uu => {
+      axios.post('http://36.92.213.157:8080/ci-4-jwt/public/api/login', {
+        email: 'bernando@gmail.com',
+        password: 'victorbernando'
+      }).then(res0 => {
+        console.log('user', uu);
+        axios.get('http://36.92.213.157:8080/ci-4-jwt/public/api/pasien/rm/' + uu.rekam_medis, {
+          headers: {
+            'Authorization': `Bearer ${res0.data.token}`
+          }
+        })
+          .then((res) => {
+
+            let tmp = res.data.message.data
+            tmp['id'] = uu.id
+            tmp['gender'] = uu.gender
+            tmp['foto_user'] = uu.foto_user
+            tmp['tanggal_lahir'] = uu.tanggal_lahir
+            tmp['telepon'] = uu.telepon
+
+            console.log('API', tmp);
+            storeData('user', tmp);
+            setUser(tmp)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      })
+
     });
 
 
@@ -56,10 +87,14 @@ export default function Home({ navigation }) {
       // padding: 20,
     }}>
 
-      <MyHeader menu={`${user.nama_lengkap}`} />
+      <MyHeader menu={`${user.nama}`} />
 
       {/* menu utama */}
+
+
       <MyCarouser />
+
+
       <View style={{
         flex: 0.5,
         flexDirection: 'row',
@@ -175,6 +210,8 @@ export default function Home({ navigation }) {
         </TouchableOpacity>
 
       </View>
+
+
     </ImageBackground >
 
 

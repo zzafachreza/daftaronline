@@ -121,11 +121,11 @@ export default function ({ navigation }) {
         </View>
         <MyGap jarak={10} />
         <View style={{ padding: 10, marginVertical: 10, flex: 1 }}>
-          <MyInput label="Telepon" onChangeText={val => setKirim({
+          <MyInput label="NIK / Rekam Medis" onChangeText={val => setKirim({
             ...kirim,
             telepon: val
           })}
-            iconname="call" keyboardType='phone-pad' placeholder="Masukan nomor telepon" />
+            iconname="card" keyboardType='phone-pad' placeholder="Masukan No NIK / No Telephone Kamu " />
           <MyGap jarak={20} />
           <MyInput
             onChangeText={val => setKirim({
@@ -133,9 +133,9 @@ export default function ({ navigation }) {
               password: val
             })}
             secureTextEntry={true}
-            label="Kata Sandi"
+            label="Kata Sandi Kamu"
             iconname="lock-closed"
-            placeholder="Masukan kata sandi"
+            placeholder="Masukan kata sandi kamu"
           />
           <MyGap jarak={40} />
           {!loading &&
